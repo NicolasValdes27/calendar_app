@@ -3,7 +3,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { addHours } from 'date-fns'
 import { localizer, getMessagesES } from '../../helpers';
-import { Navbar } from "../"
+import { Navbar, CalendarEvent, CalendarModal } from "../"
+import { useState } from 'react';
 
 const events = [
     {
@@ -12,10 +13,15 @@ const events = [
         start: new Date(),
         end: addHours(new Date(), 2),
         bgColor: '#fafafa',
+        user: {
+            name: 'Nicolás'
+        }
     }
 ]
 
 export const CalendarPage = () => {
+
+    const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
 
     const eventStyleGetter = (event, start, end, isSelected) => {
         const style = {
@@ -30,6 +36,18 @@ export const CalendarPage = () => {
         }
     }
 
+    const onDoubleClick = (event) => {
+
+    }
+
+    const onSelect = (event) => {
+
+    }
+
+    const onViewChange = (event) => {
+        localStorage.setItem('lastView', event);
+    }
+
     return (
         <>
             <Navbar />
@@ -37,12 +55,20 @@ export const CalendarPage = () => {
                 culture='es'
                 localizer={ localizer }
                 events={events}
+                defaultView={'week'}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 'calc(100vh - 80px)' }}
                 messages={ getMessagesES() }
                 eventPropGetter={ eventStyleGetter }
+                components={{
+                    event: CalendarEvent
+                }}
+                onDoubleClickEvent={onDoubleClick}
+                onSelectEvent={onSelect}
+                onView={onViewChange}
             />
+            <CalendarModal/>
         </>
     )
 }
