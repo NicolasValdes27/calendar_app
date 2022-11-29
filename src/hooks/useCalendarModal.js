@@ -3,9 +3,12 @@ import { addHours, differenceInSeconds } from 'date-fns';
 
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css'
+import { useUiStore } from './';
 
 export const useCalendarModal = () => {
-    const [isOpen, setIsOpen] = useState(true)
+
+    const { isDateModalOpen, closeDateModal } = useUiStore();
+
     const [formSubmitted, setFormSubmitted] = useState(false);
 
     const [formValues, setFormValues] = useState({
@@ -38,7 +41,7 @@ export const useCalendarModal = () => {
     }
 
     const closeModal = () => {
-        setIsOpen(false);
+        closeDateModal();
     }
 
     const onSumbmit = (event) => {
@@ -54,7 +57,7 @@ export const useCalendarModal = () => {
 
     return {
         formValues,
-        isOpen,
+        isDateModalOpen,
         titleClass,
         onInputChange,
         onDateChange,

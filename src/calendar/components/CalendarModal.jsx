@@ -25,7 +25,7 @@ export const CalendarModal = () => {
 
     const {
         formValues,
-        isOpen,
+        isDateModalOpen: isOpen,
         titleClass,
         onInputChange,
         onDateChange,
