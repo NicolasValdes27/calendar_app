@@ -8,7 +8,7 @@ import { useUiStore, useCalendarStore } from './';
 export const useCalendarModal = () => {
 
     const { isDateModalOpen, closeDateModal } = useUiStore();
-    const { activeEvent } = useCalendarStore();
+    const { activeEvent, startSavingEvent } = useCalendarStore();
 
     const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -52,15 +52,20 @@ export const useCalendarModal = () => {
         closeDateModal();
     }
 
-    const onSumbmit = (event) => {
+    const onSumbmit = async(event) => {
         event.preventDefault();
         setFormSubmitted(true);
         const difference = differenceInSeconds(formValues.end, formValues.start);
         if (isNaN(difference) || difference <= 0) {
             Swal.fire('Fechas incorrectas', 'Revisar las fechas ingresadas', 'error')
+            return;
         }
 
         if (formValues.title.length <= 0) return;
+
+        await startSavingEvent(formValues);
+        closeDateModal();
+        setFormSubmitted(false);
     }
 
     return {

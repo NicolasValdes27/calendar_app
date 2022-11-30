@@ -8,7 +8,6 @@ export const uiSlice = createSlice({
     reducers: {
         onOpenDateModal: (state) => {
             state.isDateModalOpen = true;
-            console.log("sadasd23")
         },
         onCloseDateModal: (state) => {
             state.isDateModalOpen = false;
